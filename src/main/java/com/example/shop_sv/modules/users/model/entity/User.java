@@ -31,6 +31,9 @@ public class User {
     @JsonManagedReference
     private List<AddressModel> address;
 
+    private String createdAt;
+    private String updatedAt;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable( // bảng trung gian
             name = "user_role",

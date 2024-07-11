@@ -10,4 +10,12 @@ public class FormLogin {
 
     @NotBlank(message = "Password Không được để trống")
     private String password;
+
+    @Override
+    public String toString() {
+        return "FormLogin{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
