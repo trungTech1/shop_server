@@ -1,6 +1,5 @@
 package com.example.shop_sv;
 
-import com.example.shop_sv.modules.users.repository.RoleRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

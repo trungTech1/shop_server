@@ -1,6 +1,5 @@
 package com.example.shop_sv.modules.users.service;
 
-import com.example.shop_sv.modules.users.model.dto.request.FormRegister;
 import com.example.shop_sv.modules.users.model.dto.responne.UserRespone;
 import com.example.shop_sv.modules.users.model.entity.Role;
 import com.example.shop_sv.modules.users.model.entity.RoleName;
@@ -8,16 +7,14 @@ import com.example.shop_sv.modules.users.model.entity.User;
 import com.example.shop_sv.modules.users.repository.RoleRepository;
 import com.example.shop_sv.modules.users.repository.UserRepository;
 import com.example.shop_sv.modules.users.security.jwt.JwtProvider;
+import com.example.shop_sv.modules.users.model.dto.request.FormRegister;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.shop_sv.modules.address.AddressModel;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
