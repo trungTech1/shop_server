@@ -8,6 +8,9 @@ public class ShopSvApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ShopSvApplication.class, args);
+
+
+
     }
 
 }

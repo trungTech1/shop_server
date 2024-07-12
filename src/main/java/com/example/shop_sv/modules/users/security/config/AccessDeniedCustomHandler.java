@@ -1,4 +1,4 @@
-package com.example.shop_sv.modules.users.sevurity.config;
+package com.example.shop_sv.modules.users.security.config;
 
 import com.example.shop_sv.modules.users.model.dto.responne.ResponseError;
 import com.fasterxml.jackson.databind.ObjectMapper;

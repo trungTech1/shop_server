@@ -1,7 +1,6 @@
 package com.example.shop_sv.modules.categories;
 
-import com.example.shop_sv.modules.categories.dto.request.CategoryRequest;
-
+import com.example.shop_sv.modules.categories.dto.resquest.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

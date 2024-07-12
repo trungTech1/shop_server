@@ -4,8 +4,9 @@ import com.example.shop_sv.modules.users.exception.UserNameOrPasswordInvalidExce
 import com.example.shop_sv.modules.users.model.dto.request.FormLogin;
 import com.example.shop_sv.modules.users.model.dto.responne.JWTResponse;
 import com.example.shop_sv.modules.users.model.entity.User;
+import com.example.shop_sv.modules.users.repository.RoleRepository;
 import com.example.shop_sv.modules.users.repository.UserRepository;
-import com.example.shop_sv.modules.users.sevurity.jwt.JwtProvider;
+import com.example.shop_sv.modules.users.security.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,9 @@ public class AuthenticationImpl implements IAuthentication{
     public AuthenticationManager authenticationManager;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
     @Autowired
     private JwtProvider jwtProvider;
     @Override
@@ -28,13 +32,16 @@ public class AuthenticationImpl implements IAuthentication{
              authenticationManager.authenticate(
                      new UsernamePasswordAuthenticationToken(formLogin.getUsername(),formLogin.getPassword()));
         }catch (Exception e){
-            throw new UserNameOrPasswordInvalidException("username or pass incorrect");
+            throw new UserNameOrPasswordInvalidException("Tài khoản hoặc mật khẩu không đúng");
         }
         User user = userRepository.findByUsernameOrEmailOrPhone(formLogin.getUsername())
                 .orElseThrow(() ->new UsernameNotFoundException("Username not found"));
         // trả về cho người dùng các thông tin cần thiết
         return JWTResponse.builder()
-                .accessToken(jwtProvider.generateToken(user))
-                .build();
+                .id(user.getId())
+                .roles(user.getRoles())
+                .fullName(user.getFullName())
+                .accessToken(jwtProvider.generateToken(user.getUsername(), user.getRoles(),user.getId())
+                ).build();
     }
 }

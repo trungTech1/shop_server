@@ -1,5 +1,6 @@
-package com.example.shop_sv.modules.users.sevurity.princical;
+package com.example.shop_sv.modules.users.security.princical;
 
+import com.example.shop_sv.modules.users.model.entity.User;
 import com.example.shop_sv.modules.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.example.shop_sv.modules.users.model.entity.User;
 
 
 import java.util.List;

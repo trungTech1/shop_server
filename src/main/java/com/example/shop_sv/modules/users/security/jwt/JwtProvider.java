@@ -1,13 +1,13 @@
-package com.example.shop_sv.modules.users.sevurity.jwt;
+package com.example.shop_sv.modules.users.security.jwt;
 
-import com.example.shop_sv.modules.users.model.entity.User;
+import com.example.shop_sv.modules.users.model.entity.Role;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -20,18 +20,24 @@ public class JwtProvider {
 
     private long EXPIRED;
     // tạo token
-    public String generateToken(User user) {
+    public String generateToken(String  username, Set<Role> roles, Integer id) {
         Date today = new Date();
+        String role = roles.stream()
+                .findFirst()
+                .map(Role::getRoleName)
+                .map(Enum::name)
+                .orElse("DEFAULT_ROLE"); // Provide a default role if not found
+
         return Jwts.builder()
-                .setSubject(user.getUsername()) // mã hóa username
-                .claim("id", user.getId())
-                .claim("roles", user.getRoles().stream().map(role -> role.getRoleName().name()).collect(Collectors.toList()))
-                .claim("fullName", user.getFullName())
+                .setSubject(username)
+                .claim("id", id)
+                .claim("role", role)
                 .setIssuedAt(today)
                 .setExpiration(new Date(today.getTime() + EXPIRED))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }
+
     // xác thực token
 
     // giải mã token
@@ -55,7 +61,9 @@ public class JwtProvider {
     }
 
     // giải mã lây ra username
-    public String getUserNameFromToken(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+    public String getUserNameAndIdAndRolesFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        return claims.getSubject() + " " + claims.get("id") + " " + claims.get("role");
     }
+
 }

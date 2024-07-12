@@ -2,8 +2,6 @@ package com.example.shop_sv.modules.users.controller;
 
 import com.example.shop_sv.modules.users.model.dto.request.FormLogin;
 import com.example.shop_sv.modules.users.model.dto.request.FormRegister;
-import com.example.shop_sv.modules.users.model.entity.User;
-import com.example.shop_sv.modules.users.repository.UserRepository;
 import com.example.shop_sv.modules.users.service.IAuthentication;
 import com.example.shop_sv.modules.users.service.UserService;
 import jakarta.validation.Valid;
