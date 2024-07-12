@@ -1,11 +1,13 @@
 package com.example.shop_sv.modules.users.sevurity.jwt;
 
+import com.example.shop_sv.modules.users.model.entity.User;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -18,15 +20,18 @@ public class JwtProvider {
 
     private long EXPIRED;
     // tạo token
-    public String generateToken(String  username) {
+    public String generateToken(User user) {
         Date today = new Date();
-        return Jwts.builder().setSubject(username) // mã hóa username
+        return Jwts.builder()
+                .setSubject(user.getUsername()) // mã hóa username
+                .claim("id", user.getId())
+                .claim("roles", user.getRoles().stream().map(role -> role.getRoleName().name()).collect(Collectors.toList()))
+                .claim("fullName", user.getFullName())
                 .setIssuedAt(today)
                 .setExpiration(new Date(today.getTime() + EXPIRED))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }
-
     // xác thực token
 
     // giải mã token
