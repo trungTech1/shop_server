@@ -23,6 +23,7 @@ public class User {
     private String email;
     private String phone;
     private String avatarUrl;
+    private String permission;
     private Boolean isBloked = false;
     private Boolean isDeleted = false;
     private boolean isVerified = false;
@@ -31,6 +32,9 @@ public class User {
     @JsonManagedReference
     private List<AddressModel> address;
 
+    private String createdAt;
+    private String updatedAt;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable( // bảng trung gian
             name = "user_role",
@@ -38,4 +42,24 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", isBloked=" + isBloked +
+                ", isDeleted=" + isDeleted +
+                ", isVerified=" + isVerified +
+                ", address=" + address +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

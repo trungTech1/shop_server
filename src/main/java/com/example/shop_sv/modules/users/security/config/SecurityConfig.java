@@ -1,6 +1,6 @@
-package com.example.shop_sv.modules.users.sevurity.config;
+package com.example.shop_sv.modules.users.security.config;
 
-import com.example.shop_sv.modules.users.sevurity.jwt.JwtAuthenticationFilter;
+import com.example.shop_sv.modules.users.security.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -64,7 +65,7 @@ import java.util.List;
     @Bean // phân quyền
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(cors ->cors.configurationSource(corsConfigurationSource())) // chia sẻ tài nguyên
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // phi trạng thai
                 // xử lí lỗi :
                 .exceptionHandling(handler ->
@@ -78,7 +79,6 @@ import java.util.List;
                                 .requestMatchers("/mod/**").hasAuthority("ROLE_MODERATOR")
                                 .requestMatchers("/user-mod/**").hasAnyAuthority("ROLE_USER", "ROLE_MODERATOR")
                                 .requestMatchers("/public/**").permitAll()
-                                .requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated() // còn lại thì phải được xác thực
                 );
         http.authenticationProvider(authenticationProvider());

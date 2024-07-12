@@ -1,4 +1,4 @@
-package com.example.shop_sv.modules.users.sevurity.princical;
+package com.example.shop_sv.modules.users.security.princical;
 
 import com.example.shop_sv.modules.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

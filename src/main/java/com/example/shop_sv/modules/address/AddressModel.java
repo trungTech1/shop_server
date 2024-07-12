@@ -1,6 +1,7 @@
 package com.example.shop_sv.modules.address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "address")
+@Builder
 public class AddressModel {
 
     @Id
