@@ -15,6 +15,9 @@ public class JwtProvider {
     @Value("${jwt.secret-key}")
     private String SECRET_KEY;
     @Value("${jwt.expired}")
+
+
+
     private long EXPIRED;
     // tạo token
     public String generateToken(String  username, Set<Role> roles, Integer id) {
@@ -36,6 +39,7 @@ public class JwtProvider {
     }
 
     // xác thực token
+
     // giải mã token
     // validate token
     public boolean validateToken(String token) {

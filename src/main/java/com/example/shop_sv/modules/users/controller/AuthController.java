@@ -24,6 +24,7 @@ public class AuthController {
     private UserService userService;
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody FormLogin formLogin){
+        System.out.println("formLogin = " + formLogin);
         return new ResponseEntity<>(authentication.login(formLogin), HttpStatus.OK);
     }
 
