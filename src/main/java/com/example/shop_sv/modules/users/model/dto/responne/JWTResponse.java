@@ -13,9 +13,6 @@ import java.util.Set;
 @Data
 @Builder
 public class JWTResponse {
-    private Integer id;
-    private String fullName;
-    private Set<Role> roles;
     private final String type = "Bearer Token";
     private String accessToken;
 }

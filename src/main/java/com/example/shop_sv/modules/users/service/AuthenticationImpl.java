@@ -24,7 +24,6 @@ public class AuthenticationImpl implements IAuthentication{
     @Override
     public JWTResponse login(FormLogin formLogin) {
         // kiê tra xem username và pass co khớp ko
-
         try {
              authenticationManager.authenticate(
                      new UsernamePasswordAuthenticationToken(formLogin.getUsername(),formLogin.getPassword()));
@@ -35,10 +34,7 @@ public class AuthenticationImpl implements IAuthentication{
                 .orElseThrow(() ->new UsernameNotFoundException("Username not found"));
         // trả về cho người dùng các thông tin cần thiết
         return JWTResponse.builder()
-                .id(user.getId())
-                .roles(user.getRoles())
-                .fullName(user.getFullName())
-                .accessToken(jwtProvider.generateToken(user.getUsername()))
+                .accessToken(jwtProvider.generateToken(user))
                 .build();
     }
 }
