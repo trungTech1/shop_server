@@ -14,6 +14,8 @@ public class Config implements WebMvcConfigurer {
                 .addPathPatterns("/categories")
                 .addPathPatterns("/user/list")
                 .addPathPatterns("/user/update")
+                .addPathPatterns("/product/add")
+                .addPathPatterns("/product/update/**")
         .addPathPatterns("/auth");
                ; // Đường dẫn mà interceptor sẽ áp dụng, ví dụ "/*" hoặc "/api/**"
     }
