@@ -47,6 +47,10 @@ public class UserService {
                 .permission(user.getPermission())
                 .isDeleted(user.getIsDeleted())
                 .avatarUrl(user.getAvatarUrl())
+                .password(user.getPassword())
+                .isVerified(user.getIsVerified())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 

@@ -24,7 +24,7 @@ public class JwtService {
         long oneHourInMillis = 3600 * 1000 * 48;
         Date expirationTime = new Date(System.currentTimeMillis() + oneHourInMillis);
         builder.withExpiresAt(expirationTime);
-        Field[] fields = User.class.getDeclaredFields();
+        Field[] fields = UserRespone.class.getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
             Object value = field.get(data);
@@ -36,7 +36,7 @@ public class JwtService {
         return builder.sign(Algorithm.HMAC256(secretKey));
     }
 
-    public static User verifyTokenUser(String token) {
+    public static UserRespone verifyTokenUser(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             DecodedJWT jwt = JWT.require(algorithm)
@@ -44,7 +44,7 @@ public class JwtService {
                     .build()
                     .verify(token);
 
-            User user = new User();
+            UserRespone user = new UserRespone();
 
             Integer id = Integer.parseInt(jwt.getClaim("id").asString());
             user.setId(id);
@@ -70,13 +70,13 @@ public class JwtService {
             user.setAvatarUrl(avatarUrl);
 
             Boolean status = Boolean.valueOf(jwt.getClaim("isBlock").asString());
-            user.setIsBloked(status);
+            user.setIsBlock(status);
 
             Boolean isDeleted = Boolean.valueOf(jwt.getClaim("isDeleted").asString());
             user.setIsDeleted(isDeleted);
 
             Boolean isVerified = Boolean.valueOf(jwt.getClaim("isVerified").asString());
-            user.setVerified(isVerified);
+            user.setIsVerified(isVerified);
 
             String createAt = jwt.getClaim("createAt").asString();
             user.setCreatedAt(createAt);

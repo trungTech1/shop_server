@@ -11,10 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -26,8 +23,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody FormLogin data){
         try {
-            UserRespone user = userService.getUserByName(data.getUsername());
 
+            UserRespone user = userService.getUserByName(data.getUsername());
+            System.out.println("da vaooooo" + user);
             if(user == null){
                 throw new Exception("Tài khoản không tồn tại");
             }
@@ -36,12 +34,13 @@ public class AuthController {
                 throw new Exception("Sai mật khẩu");
             }
 
-            if(!user.getIsBlock()){
+            if(user.getIsBlock()){
                 throw new Exception("Tài khoản da bi khoa");
             }
 
             String token = JwtService.createTokenUser(user);
 
+            System.out.println("da toi day" + token);
             JedisPool jedisPool = new JedisPool("localhost", 6379);
             try (Jedis jedis = jedisPool.getResource()) {
                 jedis.set(String.valueOf(user.getId()), token);
@@ -51,13 +50,23 @@ public class AuthController {
             return new ResponseEntity<>(token, HttpStatus.OK);
 
         }catch (Exception e){
+            System.out.println("loi" + e.getMessage()  );
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("")
+    public  ResponseEntity<Object> authen(@RequestAttribute("data") UserRespone user) {
+        System.out.println("da vao day" + user);
+        try {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }catch (Exception e){
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
     }
 
-
     @PostMapping("/register")
     public ResponseEntity<Object> register(@Valid @RequestBody FormRegister formRegister){
+
         try{
             userService.save(formRegister);
             return new ResponseEntity<>("Đăng ký thành công", HttpStatus.OK);
