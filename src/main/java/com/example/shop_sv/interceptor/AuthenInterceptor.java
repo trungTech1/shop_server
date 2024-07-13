@@ -1,5 +1,6 @@
 package com.example.shop_sv.interceptor;
 
+import com.example.shop_sv.modules.users.model.dto.responne.UserRespone;
 import com.example.shop_sv.modules.users.model.entity.User;
 import com.example.shop_sv.modules.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +24,8 @@ public class AuthenInterceptor implements HandlerInterceptor {
 
         // Thực thi trước khi request vào controller
         String token = request.getHeader("token");
-        User user = JwtService.verifyTokenUser(token);
+        System.out.println("tokensdasdasdas: " + token);
+        UserRespone user = JwtService.verifyTokenUser(token);
         if (user == null) {
             response.setStatus(401);
             return false;

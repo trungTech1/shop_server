@@ -23,7 +23,10 @@ public class UserRespone {
     private RoleName role;
     private Boolean isBlock;
     private Boolean isDeleted;
+    private Boolean isVerified;
     private String avatarUrl;
     private String permission;
     private List<AddressModel> addressList;
+    private String createdAt;
+    private String updatedAt;
 }

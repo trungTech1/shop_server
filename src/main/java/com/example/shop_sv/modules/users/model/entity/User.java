@@ -26,7 +26,7 @@ public class User {
     private String permission;
     private Boolean isBloked = false;
     private Boolean isDeleted = false;
-    private boolean isVerified = false;
+    private Boolean isVerified = false;
     @OneToMany()
     @JoinColumn(name = "userId")
     @JsonManagedReference
