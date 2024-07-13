@@ -24,6 +24,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody FormRegister formRegister){
-        return
+        return  null;
     }
 }

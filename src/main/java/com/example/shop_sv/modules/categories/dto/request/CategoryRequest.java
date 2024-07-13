@@ -1,4 +1,4 @@
-package com.example.shop_sv.modules.categories.dto.respone;
+package com.example.shop_sv.modules.categories.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

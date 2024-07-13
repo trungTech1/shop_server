@@ -1,6 +1,6 @@
 package com.example.shop_sv.modules.categories;
 
-import com.example.shop_sv.modules.categories.dto.respone.CategoryRequest;
+import com.example.shop_sv.modules.categories.dto.request.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +21,15 @@ public class CategoryController {
     }
     @PostMapping
     public CategoryModel save(@RequestBody CategoryRequest data){
-        System.out.println("da vao"+data.getName());
         return categoryService.save(data);
     }
     @DeleteMapping( "/{id}")
     public void delete(@PathVariable Integer id){
-        System.out.println("da vao"+id);
         categoryService.delete(id);
     }
+    @PutMapping( "/{id}")
+    public CategoryModel update(@PathVariable Integer id, @RequestBody CategoryRequest data){
+        return categoryService.update(id, data);
+    }
+
 }
