@@ -24,7 +24,6 @@ public class AuthenInterceptor implements HandlerInterceptor {
 
         // Thực thi trước khi request vào controller
         String token = request.getHeader("token");
-        System.out.println("tokensdasdasdas: " + token);
         UserRespone user = JwtService.verifyTokenUser(token);
         if (user == null) {
             response.setStatus(401);

@@ -4,6 +4,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface CategoryRepository extends JpaRepository <CategoryModel, Long>{
+public interface CategoryRepository extends JpaRepository <CategoryModel, Integer>{
     Page<CategoryModel> findByStatusTrue(Pageable pageable);
 }
