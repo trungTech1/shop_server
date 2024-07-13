@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
 
     public void save(FormRegister user){
         User newUser = new User();
@@ -42,7 +43,7 @@ public class UserService {
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .phone(user.getPhone())
-                .isBlock(user.getIsBloked())
+                .isBlocked(user.getIsBlocked())
                 .role(user.getRole())
                 .permission(user.getPermission())
                 .isDeleted(user.getIsDeleted())
@@ -54,4 +55,16 @@ public class UserService {
                 .build();
     }
 
+
+    public List<User> findUsers(){
+        return userRepository.findAll();
+    }
+
+    public Optional<User> findUserById(int id){
+        return userRepository.findById(id);
+    }
+
+    public User update(User data){
+        return userRepository.save(data);
+    }
 }
