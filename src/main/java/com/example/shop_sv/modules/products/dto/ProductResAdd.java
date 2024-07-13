@@ -10,9 +10,9 @@ import java.util.List;
 public class ProductResAdd {
     private String product_name;
     private String description;
-    private Integer unitPrice;
+    private Double unitPrice;
     private Integer stock_quantity;
-    private List<String> imageUrls;
+    private List<String> images;
     private Integer category_id;
 
     @Override
@@ -22,7 +22,7 @@ public class ProductResAdd {
                 ", description='" + description + '\'' +
                 ", unitPrice=" + unitPrice +
                 ", stock_quantity=" + stock_quantity +
-                ", images=" + imageUrls +
+                ", images=" + images +
                 ", category_id=" + category_id +
                 '}';
     }

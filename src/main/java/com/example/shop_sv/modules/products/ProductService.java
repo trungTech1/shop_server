@@ -1,6 +1,7 @@
 package com.example.shop_sv.modules.products;
 
 import com.example.shop_sv.modules.categories.CategoryService;
+import com.example.shop_sv.modules.imageProduct.ImageProductModel;
 import com.example.shop_sv.modules.products.dto.ProductRep;
 import com.example.shop_sv.modules.products.dto.ProductReqUpdate;
 import com.example.shop_sv.modules.products.dto.ProductResAdd;
@@ -10,10 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,20 +30,21 @@ public class ProductService {
 
     public ProductModel addProduct(ProductResAdd productRq) {
         ProductModel product = new ProductModel();
-        product.setProduct_name(productRq.getProduct_name());
+        product.setName(productRq.getProduct_name());
         product.setDescription(productRq.getDescription());
-        product.setUnitPrice(productRq.getUnitPrice());
-        product.setStock_quantity(productRq.getStock_quantity());
+        product.setPrice(productRq.getUnitPrice());
+        product.setStockQuantity(productRq.getStock_quantity());
         product.setCategory(categoryService.getCategoryById(productRq.getCategory_id()));
-        product.setCreated_at(new Date().toString());
+        product.setCreatedDate(new Date().toString());
         product.setStatus(true);
-        List<ImageProduct> images = new ArrayList<>();
-        for (String imageUrl : productRq.getImageUrls()) {
-            ImageProduct imageProduct = new ImageProduct();
+        System.out.println("images: " + productRq.getImages());
+        List<ImageProductModel> images = new ArrayList<>();
+        for (String imageUrl : productRq.getImages()) {
+            ImageProductModel imageProduct = new ImageProductModel();
             imageProduct.setImageUrl(imageUrl);
             images.add(imageProduct);
         }
-        product.setImageProducts(images);
+        product.setImages(images);
         productRepository.save(product);
         return product;
     }
@@ -77,15 +76,16 @@ public class ProductService {
     }
     public ProductRep convertToProductRep(ProductModel product) {
         ProductRep productRep = new ProductRep();
-        productRep.setProduct_id(product.getProduct_id());
-        productRep.setProduct_name(product.getProduct_name());
+        productRep.setProduct_id(product.getId());
+        productRep.setProduct_name(product.getName());
         productRep.setDescription(product.getDescription());
-        productRep.setUnitPrice(product.getUnitPrice());
-        productRep.setStock_quantity(product.getStock_quantity());
+        productRep.setUnitPrice(product.getPrice());
+        productRep.setStock_quantity(product.getStockQuantity());
         productRep.setCategory_id(product.getCategory().getId());
-        productRep.setCreated_at(product.getCreated_at());
         productRep.setStatus(product.getStatus());
-        productRep.setImageUrls(product.getImageProducts().stream().map(ImageProduct::getImageUrl).collect(Collectors.toList()));
+        productRep.setCreatedDate(product.getCreatedDate());
+        productRep.setUpdatedDate(product.getUpdatedDate());
+        productRep.setImageUrls(product.getImages().stream().map(ImageProductModel::getImageUrl).collect(Collectors.toList()));
         return productRep;
     }
 
@@ -93,22 +93,47 @@ public class ProductService {
         Optional<ProductModel> productOpt = productRepository.findById(productId);
         if (productOpt.isPresent()) {
             ProductModel product = productOpt.get();
-            product.setProduct_name(productRq.getProduct_name());
+            product.setName(productRq.getProduct_name());
             product.setDescription(productRq.getDescription());
-            product.setUnitPrice(productRq.getUnitPrice());
-            product.setStock_quantity(productRq.getStock_quantity());
+            product.setPrice(productRq.getUnitPrice());
+            product.setStockQuantity(productRq.getStock_quantity());
             product.setCategory(categoryService.getCategoryById(productRq.getCategory_id()));
-            product.setUpdated_at(new Date().toString());
-            product.getImageProducts().clear();
+            product.setUpdatedDate(new Date().toString());
+            product.getImages().clear();
+            System.out.println("images: " + productRq.getImageUrls());
             for (String imageUrl : productRq.getImageUrls()) {
-                ImageProduct imageProduct = new ImageProduct();
+                ImageProductModel imageProduct = new ImageProductModel();
                 imageProduct.setImageUrl(imageUrl);
-                product.getImageProducts().add(imageProduct);
+                product.getImages().add(imageProduct);
             }
             productRepository.save(product);
             return "Product updated successfully";
         } else {
             throw new RuntimeException("Product not found");
+        }
+    }
+    private void updateProductImages(ProductModel product, List<String> newImageUrls) {
+        // Tạo một set của các URL hình ảnh hiện tại
+        Set<String> currentImageUrls = product.getImages().stream()
+                .map(ImageProductModel::getImageUrl)
+                .collect(Collectors.toSet());
+        // Xóa những hình ảnh không còn trong danh sách mới
+        product.getImages().removeIf(image -> !newImageUrls.contains(image.getImageUrl()));
+
+        // Thêm những hình ảnh mới
+        newImageUrls.forEach(url -> {
+            if (!currentImageUrls.contains(url)) {
+                ImageProductModel newImage = new ImageProductModel();
+                newImage.setImageUrl(url);
+                product.getImages().add(newImage);
+            }
+        });
+
+        // Nếu không có hình ảnh nào, có thể thêm một hình ảnh mặc định hoặc để trống
+        if (product.getImages().isEmpty()) {
+            ImageProductModel defaultImage = new ImageProductModel();
+            defaultImage.setImageUrl("default-image-url");
+            product.getImages().add(defaultImage);
         }
     }
 }

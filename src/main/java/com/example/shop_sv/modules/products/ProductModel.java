@@ -1,58 +1,62 @@
 package com.example.shop_sv.modules.products;
 
 import com.example.shop_sv.modules.categories.CategoryModel;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.shop_sv.modules.imageProduct.ImageProductModel;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Builder
+@Table(name = "products")
 public class ProductModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer product_id;
-    // tên sản phẩm
-    @Column(name = "product_name", nullable = false, unique = true)
-    private String product_name;
+    private Integer id;
 
-    @Lob
+    private String name;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private Integer unitPrice;
-
-    private Integer stock_quantity;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "product_id")
-    private List<ImageProduct> imageProducts;
-
+    private Double price;
+    private Integer stockQuantity;
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    @JsonBackReference
+    @JsonManagedReference
     private CategoryModel category;
 
-    @Column(name = "status", columnDefinition = "BIT DEFAULT 1")
-    private Boolean status;
+    private Boolean status = true;
 
-    @Temporal(TemporalType.DATE)
-    private String created_at;
+    private Boolean isDeleted = false;
 
-    @Temporal(TemporalType.DATE)
-    private String updated_at;
+    private String createdDate;
 
+    private String updatedDate;
 
-    public Integer generateSku() {
-        return (int) (Math.random() * 1000000);
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "product_id")
+    @JsonManagedReference
+    private List<ImageProductModel> images;
+
+    @Override
+    public String toString() {
+        return "ProductModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", category=" + category +
+                ", status=" + status +
+                ", isDeleted=" + isDeleted +
+                ", images=" + images +
+                '}';
     }
-
 }
+

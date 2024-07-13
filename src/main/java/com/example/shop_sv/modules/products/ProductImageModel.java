@@ -7,16 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Builder
-public class ImageProduct {
+@Table(name = "product_images")
+public class ProductImageModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer image_id;
+    private Long id;
 
-    @Column(nullable = false)
-    private String imageUrl;
-
+    private String url;
 }

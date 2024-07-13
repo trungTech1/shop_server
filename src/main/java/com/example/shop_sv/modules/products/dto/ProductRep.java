@@ -12,13 +12,12 @@ import java.util.List;
 public class ProductRep {
     private Integer product_id;
     private String product_name;
-    private Integer sku;
     private String description;
-    private Integer unitPrice;
+    private Double unitPrice;
     private Integer stock_quantity;
     private Integer category_id;
     private List<String> imageUrls;
     private Boolean status;
-    private String created_at;
-    private String updated_at;
+    private String createdDate;
+    private String updatedDate;
 }
