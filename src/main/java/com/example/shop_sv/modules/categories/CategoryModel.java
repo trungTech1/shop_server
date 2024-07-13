@@ -19,4 +19,14 @@ public class CategoryModel {
     private String name;
     private String iconUrl;
     private Boolean status = true;
+
+    @Override
+    public String toString() {
+        return "CategoryModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

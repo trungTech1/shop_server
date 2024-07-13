@@ -40,7 +40,6 @@ public class AuthController {
 
             String token = JwtService.createTokenUser(user);
 
-            System.out.println("da toi day" + token);
             JedisPool jedisPool = new JedisPool("localhost", 6379);
             try (Jedis jedis = jedisPool.getResource()) {
                 jedis.set(String.valueOf(user.getId()), token);

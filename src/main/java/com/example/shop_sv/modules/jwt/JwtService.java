@@ -28,11 +28,11 @@ public class JwtService {
         for (Field field : fields) {
             field.setAccessible(true);
             Object value = field.get(data);
+            System.out.println("value =>" + value);
             if (value != null) {
                 builder.withClaim(field.getName(), value.toString());
             }
         }
-
         return builder.sign(Algorithm.HMAC256(secretKey));
     }
 
@@ -54,6 +54,9 @@ public class JwtService {
 
             String email = jwt.getClaim("email").asString();
             user.setEmail(email);
+
+            String fullName = jwt.getClaim( "fullName").asString();
+            user.setFullName(fullName);
 
             String phone = jwt.getClaim("phone").asString();
             user.setPhone(phone);
