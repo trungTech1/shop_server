@@ -24,9 +24,10 @@ public class User {
     private String phone;
     private String avatarUrl;
     private String permission;
-    private Boolean isBloked = false;
+    private Boolean isBlocked = false;
     private Boolean isDeleted = false;
     private Boolean isVerified = false;
+
     @OneToMany()
     @JoinColumn(name = "userId")
     @JsonManagedReference

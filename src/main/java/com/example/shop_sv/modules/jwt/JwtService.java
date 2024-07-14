@@ -73,7 +73,7 @@ public class JwtService {
             user.setAvatarUrl(avatarUrl);
 
             Boolean status = Boolean.valueOf(jwt.getClaim("isBlock").asString());
-            user.setIsBlock(status);
+            user.setIsBlocked(status);
 
             Boolean isDeleted = Boolean.valueOf(jwt.getClaim("isDeleted").asString());
             user.setIsDeleted(isDeleted);

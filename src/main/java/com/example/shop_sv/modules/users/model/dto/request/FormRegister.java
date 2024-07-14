@@ -32,7 +32,7 @@ public class FormRegister {
     @NotBlank(message = "Fullname Không được để trống")
     private String fullName;
 
-    private String AvatarUrl;
+    private String avatarUrl;
 
     @Override
     public String toString() {
@@ -42,7 +42,7 @@ public class FormRegister {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", fullName='" + fullName + '\'' +
-                ", AvatarUrl='" + AvatarUrl + '\'' +
+                ", AvatarUrl='" + avatarUrl + '\'' +
                 '}';
     }
 }

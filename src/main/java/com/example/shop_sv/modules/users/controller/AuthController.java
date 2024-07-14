@@ -34,7 +34,7 @@ public class AuthController {
                 throw new Exception("Sai mật khẩu");
             }
 
-            if(user.getIsBlock()){
+            if(user.getIsBlocked()){
                 throw new Exception("Tài khoản da bi khoa");
             }
 
